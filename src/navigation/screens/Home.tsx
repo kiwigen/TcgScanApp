@@ -1,7 +1,13 @@
 import { Button, Text } from '@react-navigation/elements';
 import { StyleSheet, View } from 'react-native';
+import { useCameraPermission } from 'react-native-vision-camera';
+import { NotFound } from './NotFound';
 
 export function Home() {
+  const { hasPermission, requestPermission } = useCameraPermission()
+  if(!hasPermission && !requestPermission())
+    return <NotFound/>
+
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>

@@ -11,8 +11,12 @@ import newspaper from '../assets/newspaper.png';
 import { Home } from './screens/Home';
 import { Profile } from './screens/Profile';
 import { Settings } from './screens/Settings';
-import { Updates } from './screens/Updates';
 import { NotFound } from './screens/NotFound';
+import TabCardLists from './screens/list';
+import listOverviewScreen from './screens/list/listoverview';
+import ScanScreen from './screens/scan';
+
+
 
 const HomeTabs = createBottomTabNavigator({
   screens: {
@@ -32,8 +36,8 @@ const HomeTabs = createBottomTabNavigator({
         ),
       },
     },
-    Updates: {
-      screen: Updates,
+    List: {
+      screen: TabCardLists,
       options: {
         tabBarIcon: ({ color, size }) => (
           <Image
@@ -91,6 +95,15 @@ const RootStack = createNativeStackNavigator({
         path: '*',
       },
     },
+    ListOverview: {
+      screen: listOverviewScreen,
+      options:  ({ route }) => ({
+        title: route.params.name,
+      }),
+    },
+  Scan: {
+    screen: ScanScreen,    
+  },
   },
 });
 
@@ -100,6 +113,6 @@ type RootStackParamList = StaticParamList<typeof RootStack>;
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList extends RootStackParamList { }
   }
 }
