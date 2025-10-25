@@ -5,17 +5,23 @@ import { Camera, useCameraDevice, useFrameProcessor } from 'react-native-vision-
 import { useTextRecognition } from 'react-native-vision-camera-ocr-plus';
 import { } from 'react-native-vision-camera-ocr-plus'
 import { useRunOnJS } from 'react-native-worklets-core';
+import { CardsListRowPro } from '../../objects/CardsListRowPro';
 
 
 export default function ScanScreen({route}) {
   const device = useCameraDevice('back');
   const { scanText } = useTextRecognition({ language: 'latin' });
-  let liste = [''];
+  let liste : CardsListRowPro[] = [];
 
   const storeCardNumbers = useRunOnJS(async (value: string) => {
     try {
-      if(liste == null || liste.includes(value))
+      if(liste == null || liste.map(x=>x.id).includes(value))
         return;
+      let item = new CardsListRowPro()
+      item.amount = 1;
+      item.id = value;
+      item.title = value;       
+      liste.push(item)
       await AsyncStorage.setItem(route.params.listId, JSON.stringify(liste));
     } catch (e) {
       console.error(e)
@@ -29,9 +35,9 @@ export default function ScanScreen({route}) {
     if (data != undefined) {
       if (data.length > 0) {
         const regex = /[0-9][0-9]-[0-9][0-9][0-9][C,R,L,S,H]/;
-        var s = regex.exec(data)
-        if (s != null) {
-          storeCardNumbers(s[0]);
+        var regexResult = regex.exec(data)
+        if (regexResult != null) {
+          storeCardNumbers(regexResult[0]);
         }
       }
     }
