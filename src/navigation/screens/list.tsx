@@ -63,7 +63,7 @@ export default function TabCardLists() {
       cardList.title = text;
       const newCardList = [...liste, cardList];
       await AsyncStorage.setItem("cardLists", JSON.stringify(newCardList));
-      await AsyncStorage.setItem(cardList.id, JSON.stringify(['']));
+      // await AsyncStorage.setItem(cardList.id, JSON.stringify(['']));
 
 
       return newCardList;
